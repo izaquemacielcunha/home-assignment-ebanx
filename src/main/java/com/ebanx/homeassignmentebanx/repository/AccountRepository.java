@@ -7,6 +7,6 @@ import com.ebanx.homeassignmentebanx.entity.Account;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, String> {
-	Integer getBalanceByDestination(String destination);
+	Account getBalanceByDestination(String destination);
 
 }// end of interface
