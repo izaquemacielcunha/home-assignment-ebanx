@@ -5,8 +5,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ebanx.homeassignmentebanx.service.AccountService;
 
@@ -18,8 +18,8 @@ import lombok.AllArgsConstructor;
 public class AccountController {
 	private AccountService accountService;
 
-	@GetMapping(path = "/{account_id}")
-	public ResponseEntity<Integer> getBook(@PathVariable String destionation) {
+	@GetMapping
+	public ResponseEntity<Integer> getBalance(@RequestParam(value = "account_id") String destionation) {
 		return ResponseEntity.status(HttpStatus.OK).body(accountService.getBalanceByDestination(destionation));
 	}
 

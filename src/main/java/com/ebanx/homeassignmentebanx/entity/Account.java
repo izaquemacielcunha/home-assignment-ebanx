@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -25,8 +26,20 @@ public class Account {
 	@Id
 	private String destination;
 	private Integer balance;
-	@OneToMany(mappedBy = "account")
+	@OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
 	@JsonIgnore
 	private List<Transaction> transactions;
+	
+	//TODO create dto
+	
+	public void withdraw(int amount) {
+		this.balance -= amount;
+		//TODO throw exception when amount is bigger than balance
+	}
+	
+	public void deposit(int amount) {
+		this.balance += amount;
+		//TODO throw exception when amount is negative
+	}
 
 }// end of class

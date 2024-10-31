@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ebanx.homeassignmentebanx.entity.Account;
-import com.ebanx.homeassignmentebanx.model.NewAccount;
+import com.ebanx.homeassignmentebanx.model.TransactionRequest;
 import com.ebanx.homeassignmentebanx.service.AccountService;
 
 import lombok.AllArgsConstructor;
@@ -21,9 +21,11 @@ public class TransactionController {
 	private AccountService accountService;
 
 	@PostMapping
-	public ResponseEntity<Account> save(@RequestBody NewAccount newAccount) {
-		Account account = accountService.save(newAccount);
+	public ResponseEntity<Account> execute(@RequestBody TransactionRequest transactionRequest) {
+		Account account = accountService.process(transactionRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).body(account);
 	}
+	
+	// TODO put operation
 
 }// end of class
