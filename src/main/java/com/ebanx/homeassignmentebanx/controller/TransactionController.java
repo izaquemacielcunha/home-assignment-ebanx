@@ -27,6 +27,4 @@ public class TransactionController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
-	// TODO put operation
-
 }// end of class

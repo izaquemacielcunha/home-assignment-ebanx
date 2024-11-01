@@ -17,6 +17,10 @@ public class TransactionServiceImpl implements TransactionService {
 	public void save(Transaction transaction) {
 		transactionRepository.save(transaction);
 	}
-	// TODO get list of all transactions from a account
+
+	@Override
+	public void deleteAll() {
+		transactionRepository.deleteAll();
+	}
 
 }// end of class
