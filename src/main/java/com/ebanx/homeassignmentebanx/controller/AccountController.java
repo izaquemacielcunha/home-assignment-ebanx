@@ -19,8 +19,8 @@ public class AccountController {
 	private AccountService accountService;
 
 	@GetMapping
-	public ResponseEntity<Integer> getBalance(@RequestParam(value = "account_id") String destionation) {
-		return ResponseEntity.status(HttpStatus.OK).body(accountService.getBalanceByDestination(destionation));
+	public ResponseEntity<Integer> getBalance(@RequestParam(value = "account_id") String id) {
+		return ResponseEntity.status(HttpStatus.OK).body(accountService.getBalanceById(id));
 	}
 
 }// end of class

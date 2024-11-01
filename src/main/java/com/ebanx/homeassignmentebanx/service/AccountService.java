@@ -1,11 +1,12 @@
 package com.ebanx.homeassignmentebanx.service;
 
-import com.ebanx.homeassignmentebanx.entity.Account;
+import java.util.Map;
+
 import com.ebanx.homeassignmentebanx.model.TransactionRequest;
 
 public interface AccountService {
-	Integer getBalanceByDestination(String destination);
-	Account process(TransactionRequest createAccount);
+	Integer getBalanceById(String id);
+	Map<String, Object> process(TransactionRequest createAccount);
 	void deleteAll();
 
 }// end of interface

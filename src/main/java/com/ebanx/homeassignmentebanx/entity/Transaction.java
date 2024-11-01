@@ -4,8 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,12 +25,10 @@ public class Transaction {
 	private String type;
 	private String origin;
 	private Integer amount;
-	@ManyToOne
-	@JoinColumn(name = "destination")
-	private Account account;
+	private String destination;
 
 	// TODO refactor this class, we have three operations: withdraw, transfer and
 	// deposit
-	//TODO create dto
+	// TODO create dto
 
 }// end of class
