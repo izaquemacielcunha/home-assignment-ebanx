@@ -1,7 +1,13 @@
 package com.ebanx.homeassignmentebanx.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,8 +24,11 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Account {
 	@Id
-	private String id;
+	private String destination;
 	private Integer balance;
+	@OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
+	@JsonIgnore
+	private List<Transaction> transactions;
 	
 	//TODO create dto
 	

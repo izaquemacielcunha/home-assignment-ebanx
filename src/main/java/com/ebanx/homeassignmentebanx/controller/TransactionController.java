@@ -1,7 +1,5 @@
 package com.ebanx.homeassignmentebanx.controller;
 
-import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ebanx.homeassignmentebanx.entity.Account;
 import com.ebanx.homeassignmentebanx.model.TransactionRequest;
 import com.ebanx.homeassignmentebanx.service.AccountService;
 
@@ -22,11 +21,11 @@ public class TransactionController {
 	private AccountService accountService;
 
 	@PostMapping
-	public ResponseEntity<Map<String, Object>> execute(@RequestBody TransactionRequest transactionRequest) {
-		Map<String, Object> response = accountService.process(transactionRequest);
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	public ResponseEntity<Account> execute(@RequestBody TransactionRequest transactionRequest) {
+		Account account = accountService.process(transactionRequest);
+		return ResponseEntity.status(HttpStatus.CREATED).body(account);
 	}
-
+	
 	// TODO put operation
 
 }// end of class
