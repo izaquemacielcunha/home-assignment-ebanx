@@ -7,9 +7,8 @@ public class AccountMapper {
 
 	public static Account mapToNewAccount(TransactionRequest newAccount) {
 		Account account = Account.builder()
-				.destination(newAccount.getDestination())
+				.id(newAccount.getDestination())
 				.balance(newAccount.getAmount())
-				.transactions(null)
 				.build();
 		return account;
 	}
