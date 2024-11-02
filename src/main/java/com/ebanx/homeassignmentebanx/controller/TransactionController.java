@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ebanx.homeassignmentebanx.model.TransactionRequest;
-import com.ebanx.homeassignmentebanx.service.AccountService;
+import com.ebanx.homeassignmentebanx.service.ProcessorService;
 
 import lombok.AllArgsConstructor;
 
@@ -19,11 +19,11 @@ import lombok.AllArgsConstructor;
 @RequestMapping(path = "/event", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class TransactionController {
-	private AccountService accountService;
+	private ProcessorService transactionProcessorService;
 
 	@PostMapping
 	public ResponseEntity<Map<String, Object>> execute(@RequestBody TransactionRequest transactionRequest) {
-		Map<String, Object> response = accountService.process(transactionRequest);
+		Map<String, Object> response = transactionProcessorService.process(transactionRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 

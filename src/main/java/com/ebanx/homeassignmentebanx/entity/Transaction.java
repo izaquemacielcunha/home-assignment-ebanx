@@ -27,8 +27,4 @@ public class Transaction {
 	private Integer amount;
 	private String destination;
 
-	// TODO refactor this class, we have three operations: withdraw, transfer and
-	// deposit
-	// TODO create dto
-
 }// end of class

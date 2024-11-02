@@ -1,5 +1,8 @@
 package com.ebanx.homeassignmentebanx.entity;
 
+import com.ebanx.homeassignmentebanx.exception.InsufficientBalanceException;
+import com.ebanx.homeassignmentebanx.exception.InvalidTransactionAmountException;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -20,17 +23,22 @@ public class Account {
 	@Id
 	private String id;
 	private Integer balance;
-	
-	//TODO create dto
-	
+
 	public void withdraw(int amount) {
+		if (amount > balance) {
+			throw new InsufficientBalanceException("Insufficient balance to perform the withdrawal");
+		}
+		if (amount <= 0) {
+			throw new InvalidTransactionAmountException("The withdrawal amount must be positive");
+		}
 		this.balance -= amount;
-		//TODO throw exception when amount is bigger than balance
 	}
-	
+
 	public void deposit(int amount) {
+		if (amount <= 0) {
+			throw new InvalidTransactionAmountException("The deposit amount must be positive");
+		}
 		this.balance += amount;
-		//TODO throw exception when amount is negative
 	}
 
 }// end of class
