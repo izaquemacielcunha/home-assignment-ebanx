@@ -5,7 +5,7 @@ import com.ebanx.homeassignmentebanx.model.TransactionRequest;
 
 public class TransactionMapper {
 
-	public static Transaction mapToNewDeposit(TransactionRequest transactionRequest) {
+	public static Transaction mapToNewTransaction(TransactionRequest transactionRequest) {
 		Transaction transaction = Transaction.builder()
 				.type(transactionRequest.getType())
 				.amount(transactionRequest.getAmount())
