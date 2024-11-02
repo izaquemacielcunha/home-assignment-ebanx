@@ -35,5 +35,4 @@ public class DepositProcessor implements TransactionProcessor {
 		return ResponseUtils.buildDepositReponse(account);
 	}
 
-}
-// end of class
+}// end of class
