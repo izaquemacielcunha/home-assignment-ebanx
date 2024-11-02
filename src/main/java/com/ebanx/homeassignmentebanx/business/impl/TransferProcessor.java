@@ -30,8 +30,8 @@ public class TransferProcessor implements TransactionProcessor {
 		Account destinationAccount = accountService.findById(transactionRequest.getDestination())
 				.orElse(AccountMapper.mapToNewAccount(transactionRequest));
 		
-		destinationAccount.deposit(transactionRequest.getAmount());
 		originAccount.withdraw(transactionRequest.getAmount());
+		destinationAccount.deposit(transactionRequest.getAmount());
 		accountService.save(originAccount);
 		accountService.save(destinationAccount);
 
