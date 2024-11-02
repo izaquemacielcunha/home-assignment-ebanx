@@ -1,0 +1,102 @@
+package com.ebanx.homeassignmentebanx.business.impl;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Map;
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.ebanx.homeassignmentebanx.entity.Account;
+import com.ebanx.homeassignmentebanx.entity.Transaction;
+import com.ebanx.homeassignmentebanx.exception.InvalidTransactionAmountException;
+import com.ebanx.homeassignmentebanx.model.TransactionRequest;
+import com.ebanx.homeassignmentebanx.service.AccountService;
+import com.ebanx.homeassignmentebanx.service.TransactionService;
+
+@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+public class DepositProcessorTest {
+
+	@Mock
+	private TransactionService transactionService;
+
+	@Mock
+	private AccountService accountService;
+
+	@InjectMocks
+	private DepositProcessor depositProcessor;
+
+	private TransactionRequest transactionRequestNonExistingAccount;
+	private TransactionRequest transactionRequestExistingAccount;
+	private TransactionRequest transactionRequestNegativeAmount;
+
+	@BeforeEach
+	void setUp() {
+		transactionRequestNonExistingAccount = TransactionRequest.builder()
+				.type("deposit")
+				.destination("100")
+				.amount(10)
+				.build();
+		transactionRequestExistingAccount = TransactionRequest.builder()
+				.type("deposit")
+				.destination("200")
+				.amount(10)
+				.build();
+		transactionRequestNegativeAmount = TransactionRequest.builder()
+				.type("deposit")
+				.destination("200")
+				.amount(-10)
+				.build();
+	}
+
+	@Test
+	void shouldProcessDepositForNonExistentAccount() {
+		Map<String, Object> response = depositProcessor.process(transactionRequestNonExistingAccount);
+
+		@SuppressWarnings("unchecked")
+		Map<String, Object> destination = (Map<String, Object>) response.get("destination");
+
+		assertEquals("100", destination.get("id"));
+		assertEquals(10, destination.get("balance"));
+		verify(accountService, times(1)).save(any(Account.class));
+		verify(transactionService, times(1)).save(any(Transaction.class));
+	}
+
+	@Test
+	void shouldProcessDepositForExistingAccount() {
+		Account existingAccount = Account.builder().id("200").balance(15).build();
+		when(accountService.findById("200")).thenReturn(Optional.of(existingAccount));
+
+		Map<String, Object> response = depositProcessor.process(transactionRequestExistingAccount);
+		
+		@SuppressWarnings("unchecked")
+		Map<String, Object> destination = (Map<String, Object>) response.get("destination");
+
+		assertEquals("200", destination.get("id"));
+		assertEquals(25, destination.get("balance"));
+		verify(accountService, times(1)).save(existingAccount);
+		verify(transactionService, times(1)).save(any(Transaction.class));
+	}
+	
+	@Test
+	void shouldThrowExceptionForNegativeAmount() {
+
+		InvalidTransactionAmountException thrownException = assertThrows(InvalidTransactionAmountException.class,
+				() -> depositProcessor.process(transactionRequestNegativeAmount));
+
+		assertEquals("The deposit amount must be positive", thrownException.getMessage());
+	}
+
+}// end of class
